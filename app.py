@@ -16,6 +16,7 @@ from resources.tag import blp as TagBlueprint
 from blocklist import BLOCKLIST
 
 
+
 def create_app(db_url=None):
     app = Flask(__name__)
     app.config["API_TITLE"] = "Stores REST API"
