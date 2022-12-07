@@ -2,8 +2,6 @@ from flask import Flask,jsonify
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-
-
 import models
 
 from db import db
