@@ -34,13 +34,8 @@ def send_simple_message(to, subject, body):
 class UserRegister(MethodView):
     @blp.arguments(UserRegisterSchema)
     def post(self, user_data):
-        if UserModel.query.filter(
-            or_(
-                UserModel.username == user_data["username"],
-                UserModel.email==user_data["email"]
-            )
-        ).first():
-            abort(409, message="A user with that username or email already exists.")
+        if UserModel.query.filter(UserModel.username == user_data["username"]).first():
+            abort(409, message="A user with that username already exists.")
 
         user = UserModel(
             username=user_data["username"],
@@ -49,14 +44,14 @@ class UserRegister(MethodView):
         )
         db.session.add(user)
         db.session.commit()
-        
+
         send_simple_message(
             to=user.email,
-            subject="Successfully signup",
-            body=f"Hi,{user.username} you've successfully signup"                                                     
+            subject="Successfully signed up",
+            body=f"Hi {user.username}! You have successfully signed up to the Stores REST API."
         )
+
         return {"message": "User created successfully."}, 201
-# highlight-end
 
 @blp.route("/login")
 class UserLogin(MethodView):
